@@ -1,0 +1,34 @@
+ Desenvolvimento do Código Backend
+
+// Estrutura simplificada do backend com Node.js + Express
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// Conexão com MongoDB
+mongoose.connect('mongodb://localhost:27017/devopsDB');
+
+// Modelo de Produto
+const Produto = mongoose.model('Produto', {
+  nome: String,
+  preco: Number,
+  categoria: String,
+});
+
+// Rotas
+app.post('/produtos', async (req, res) => {
+  const produto = new Produto(req.body);
+  await produto.save();
+  res.send(produto);
+});
+
+app.get('/produtos', async (req, res) => {
+  const produtos = await Produto.find();
+  res.send(produtos);
+});
+
+app.listen(3001, () => console.log('Servidor backend rodando na porta 3001'));
