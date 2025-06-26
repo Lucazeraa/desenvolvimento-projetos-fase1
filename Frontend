@@ -1,0 +1,28 @@
+ Desenvolvimento do Código Frontend
+
+
+// Estrutura simplificada do frontend com React.js
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+function App() {
+  const [produtos, setProdutos] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/produtos')
+      .then(res => setProdutos(res.data));
+  }, []);
+
+  return (
+    <div>
+      <h1>Lista de Produtos</h1>
+      <ul>
+        {produtos.map(prod => (
+          <li key={prod._id}>{prod.nome} - R${prod.preco}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
